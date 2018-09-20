@@ -9,8 +9,8 @@ server.use(cors());
 
 const secret = "2co517";
 
-const tokenGeneration = username => {
-  const payload = { username };
+const tokenGeneration = user => {
+  const payload = { username: user.username };
   const options = {
     expiresIn: "2h",
     jwtid: "9876"

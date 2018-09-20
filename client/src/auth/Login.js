@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 // import { Route } from "react-router-dom";
+import axios from 'axios';
 
 class Login extends Component {
   state = {
@@ -43,6 +44,15 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    axios
+        .post('http://localhost:8000/api/login', this.state)
+        .then(res => {
+        console.log(res.data);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
   };
 }
 

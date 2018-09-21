@@ -23,12 +23,14 @@ const auth = (req, res, next) => {
   const token = req.headers.authorization
   if(token){
       //verify then token
-      jwt.verify(token, secret, (err, decoded) => {
+      jwt.verify(token, secret, (err, decodedToken) => {
           if(err) {
               //token is invalid
               res.status(401).json({message: "Invalid token"});
           }else{
               //token is valid
+              console.log(decodedToken)
+              req.username = decodedToken.username;
               next();
           }
       })
@@ -70,7 +72,7 @@ server.post("/api/login", (req, res) => {
         //generate token
         const token = tokenGeneration(user);
         //attach that token to the response
-        res.status(200).json(`Welcome ${creds.username}, here's your ${token}`);
+        res.status(200).json(token);
       } else {
         res
           .status(401)
@@ -82,17 +84,20 @@ server.post("/api/login", (req, res) => {
 
 //router post
 
-server.get("/api/logout", (req, res) => {
-  if (req) {
-    req.destroy(err => {
-      if (err) {
-        res.send("error logging out");
-      } else {
-        res.send("good bye");
-      }
-    });
-  }
-});
+
+//done on the client level
+// server.get("/api/logout", (req, res) => {
+//   if (req.data) {
+//     req.data.destroy(err => {
+//       if (!err) {
+//         res.send("goodbye");
+//       } else {
+//         res.send("error logging out");
+//       }
+//     })
+//     .catch(err => res.status(500).send(err));
+//   }
+// });
 
 server.get("/api/users", auth, (req, res) => {
   db("users")

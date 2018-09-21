@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import { Route } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -31,7 +32,9 @@ class Login extends Component {
             type="password"
           />
         </div>
-        <button type="submit">Login</button>
+        <Link to="/users">
+          <button type="submit">Login</button>
+        </Link>
       </form>
     );
   }
@@ -45,15 +48,14 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     axios
-        .post('http://localhost:8000/api/login', this.state)
-        .then(res => {
-          // console.log(res.data)
-          localStorage.setItem('jwt', res.data);
-    })
-    .catch(err => {
+      .post("http://localhost:8000/api/login", this.state)
+      .then(res => {
+        // console.log(res.data)
+        localStorage.setItem("jwt", res.data);
+      })
+      .catch(err => {
         console.log(err);
-    })
-
+      });
   };
 }
 
